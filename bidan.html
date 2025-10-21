@@ -34,16 +34,16 @@
             text-align: center;
         }
         
-    .header img.logo {
-      position: absolute;
-      left: 190px;
-      width: 130px;
-      height: auto;
-      border-radius: 10px;
-      background: white;
-      padding: 5px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
+        .header img.logo {
+            position: absolute;
+            left: 190px;
+            width: 130px;
+            height: auto;
+            border-radius: 10px;
+            background: white;
+            padding: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
 
         .header h1 {
             font-size: 2em;
@@ -55,16 +55,16 @@
             margin-bottom: 10px;
         }
 
-         @media (max-width: 600px) {
-      .header img.logo {
-        position: static;
-        margin-bottom: 10px;
-      }
-      .header {
-        flex-direction: column;
-        padding: 20px;
-      }
-    }
+        @media (max-width: 600px) {
+            .header img.logo {
+                position: static;
+                margin-bottom: 10px;
+            }
+            .header {
+                flex-direction: column;
+                padding: 20px;
+            }
+        }
 
         .content {
             padding: 30px;
@@ -370,11 +370,15 @@
                 overflow: hidden;
             }
             .ttd-box {
-                float: right;
-                width: 250px;
+                float: left;
+                width: 45%;
                 text-align: center;
                 border: 1px solid #000;
                 padding: 15px;
+                margin-right: 5%;
+            }
+            .ttd-box:last-child {
+                margin-right: 0;
             }
             .ttd-box p {
                 margin: 5px 0;
@@ -455,10 +459,10 @@
        </div>
        
        <div class="kop-surat">
-           <h3>POLITEKNIK KESEHATAN KEMENKES .........................</h3>
-           <h3>PROGRAM STUDI D3 KEBIDANAN .........................</h3>
-           <h3 style="margin-top: 5px; font-size: 11px;">Jl. ............................................................................................</h3>
-           <h3 style="font-size: 11px;">Telp: ......................... | Email: .........................</h3>
+           <h3>POLITEKNIK KESEHATAN KEMENKES SURABAYA</h3>
+           <h3>PROGRAM STUDI D3 KEBIDANAN SOETOMO</h3>
+           <h3 style="margin-top: 5px; font-size: 11px;">Jl. Mayjen Prof. Dr. Moestopo No.8-9, Surabaya 60131</h3>
+           <h3 style="font-size: 11px;">Telp: (031) 5020292 | Email: polkesbaya@kemkes.go.id</h3>
        </div>
        
        <div class="nomor-surat">
@@ -560,8 +564,14 @@
                 <div class="ttd-section">
                     <div style="clear: both;"></div>
                     <div class="ttd-box">
+                        <p>Orang Tua/Wali</p>
+                        <p>........................., <span id="tanggalCetakOrtu"></span></p>
+                        <div class="ttd-space"></div>
+                        <p style="margin-top: 10px;"><strong><span id="ttdOrangTua"></span></strong></p>
+                    </div>
+                    <div class="ttd-box">
+                        <p>Petugas Kesehatan</p>
                         <p>........................., <span id="tanggalCetak"></span></p>
-                        <p style="margin-top: 10px; margin-bottom: 5px;">Petugas Kesehatan,</p>
                         <div class="ttd-space"></div>
                         <p style="margin-top: 10px;"><strong><span id="ttdPetugas"></span></strong></p>
                         <p style="font-size: 10px;">NIP/NIK: .........................</p>
@@ -630,7 +640,9 @@
             
             // Set tanggal cetak dan TTD
             document.getElementById('tanggalCetak').textContent = formatDate(today);
+            document.getElementById('tanggalCetakOrtu').textContent = formatDate(today);
             document.getElementById('ttdPetugas').textContent = namaPetugas;
+            document.getElementById('ttdOrangTua').textContent = namaOrangTua;
             document.getElementById('footerLokasi').textContent = lokasiFaskes;
 
             document.getElementById('formSection').style.display = 'none';
