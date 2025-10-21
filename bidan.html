@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Imunisasi Bayi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffc0cb 0%, #87ceeb 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ff69b4 0%, #4169e1 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+    .header img.logo {
+      position: absolute;
+      left: 190px;
+      width: 130px;
+      height: auto;
+      border-radius: 10px;
+      background: white;
+      padding: 5px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .header h2 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+         @media (max-width: 600px) {
+      .header img.logo {
+        position: static;
+        margin-bottom: 10px;
+      }
+      .header {
+        flex-direction: column;
+        padding: 20px;
+      }
+    }
+
+        .content {
+            padding: 30px;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #ff69b4;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ff69b4 0%, #4169e1 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-print {
+            background: linear-gradient(135deg, #32cd32 0%, #228b22 100%);
+            margin-left: 10px;
+        }
+
+        .schedule-section {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, #fff0f5 0%, #e6f2ff 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .info-card h3 {
+            color: #ff69b4;
+            margin-bottom: 10px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .vaccine-item {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+        }
+
+        .vaccine-item:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .vaccine-item.completed {
+            background: #f0fff0;
+            border-color: #32cd32;
+        }
+
+        .vaccine-item.overdue {
+            background: #fff0f0;
+            border-color: #ff6b6b;
+        }
+
+        .vaccine-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .vaccine-name {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .vaccine-date {
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .vaccine-age {
+            background: #ff69b4;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .status-badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fff4e6;
+            color: #ff8800;
+        }
+
+        .status-completed {
+            background: #e6ffe6;
+            color: #00aa00;
+        }
+
+        .status-overdue {
+            background: #ffe6e6;
+            color: #ff0000;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .reminder-section {
+            background: #fffacd;
+            border: 2px solid #ffd700;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .reminder-section h3 {
+            color: #ff8800;
+            margin-bottom: 15px;
+        }
+
+        .whatsapp-btn {
+            background: #25d366;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .whatsapp-btn:hover {
+            background: #20ba5a;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+            }
+            .btn, .whatsapp-btn, .checkbox-container, .reminder-section {
+                display: none !important;
+            }
+            .vaccine-item {
+                page-break-inside: avoid;
+            }
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 2px solid #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+             <img src="polkesbaya.jpg" alt="Logo Poltekkes Surabaya" class="logo">
+             <div class="title-text">
+            <h1>📅 Jadwal Imunisasi Bayi</h1>
+            <h2>  D3 Kebidanan Soetomo  </h2>
+            <p>Sistem Monitoring Imunisasi Bayi Baru Lahir</p>
+        </div>
+       </div>
+
+        <div class="content">
+            <div class="form-section" id="formSection">
+                <h2 style="color: #ff69b4; margin-bottom: 20px;">Data Bayi dan Orang Tua</h2>
+                
+                <div class="form-group">
+                    <label>Nama Bayi</label>
+                    <input type="text" id="namaBayi" placeholder="Masukkan nama bayi">
+                </div>
+
+                <div class="form-group">
+                    <label>Tanggal Lahir</label>
+                    <input type="date" id="tanggalLahir">
+                </div>
+
+                <div class="form-group">
+                    <label>Nama Orang Tua</label>
+                    <input type="text" id="namaOrangTua" placeholder="Masukkan nama orang tua">
+                </div>
+
+                <div class="form-group">
+                    <label>Nomor WhatsApp (untuk pengingat)</label>
+                    <input type="tel" id="nomorWA" placeholder="Contoh: 081234567890">
+                </div>
+
+                <div class="form-group">
+                    <label>Nama Petugas Kesehatan</label>
+                    <input type="text" id="namaPetugas" placeholder="Masukkan nama bidan/perawat">
+                </div>
+
+                <div class="form-group">
+                    <label>Lokasi Faskes</label>
+                    <input type="text" id="lokasiFaskes" placeholder="Nama Puskesmas/Klinik/RS">
+                </div>
+
+                <button class="btn" onclick="generateSchedule()">Buat Jadwal Imunisasi</button>
+            </div>
+
+            <div class="schedule-section" id="scheduleSection">
+                <div class="info-card">
+                    <h3>📋 Informasi Pasien</h3>
+                    <div class="info-row">
+                        <strong>Nama Bayi:</strong>
+                        <span id="displayNamaBayi"></span>
+                    </div>
+                    <div class="info-row">
+                        <strong>Tanggal Lahir:</strong>
+                        <span id="displayTanggalLahir"></span>
+                    </div>
+                    <div class="info-row">
+                        <strong>Nama Orang Tua:</strong>
+                        <span id="displayOrangTua"></span>
+                    </div>
+                    <div class="info-row">
+                        <strong>Petugas Kesehatan:</strong>
+                        <span id="displayPetugas"></span>
+                    </div>
+                    <div class="info-row">
+                        <strong>Lokasi Faskes:</strong>
+                        <span id="displayLokasi"></span>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <button class="btn btn-print" onclick="window.print()">🖨️ Cetak Jadwal</button>
+                </div>
+
+                <div id="overdueAlert"></div>
+
+                <h2 style="color: #ff69b4; margin-bottom: 20px;">Jadwal Imunisasi Lengkap</h2>
+                <div id="vaccineList"></div>
+
+                <div class="reminder-section">
+                    <h3>📱 Kirim Pengingat WhatsApp</h3>
+                    <p>Klik tombol di bawah untuk mengirim jadwal imunisasi ke WhatsApp</p>
+                    <button class="whatsapp-btn" onclick="sendWhatsAppReminder()">
+                        <span>📲</span> Kirim ke WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const vaccineSchedule = [
+            { name: "Hepatitis B (HB-0)", age: 0, description: "Diberikan segera setelah lahir (0-24 jam)" },
+            { name: "Polio 1 (OPV 1)", age: 1, description: "Diberikan saat bayi berusia 1 bulan" },
+            { name: "BCG & Polio 2", age: 2, description: "Diberikan saat bayi berusia 2 bulan" },
+            { name: "DPT-HB-Hib 1 & Polio 3", age: 2, description: "Diberikan saat bayi berusia 2 bulan" },
+            { name: "DPT-HB-Hib 2 & Polio 4", age: 3, description: "Diberikan saat bayi berusia 3 bulan" },
+            { name: "DPT-HB-Hib 3", age: 4, description: "Diberikan saat bayi berusia 4 bulan" },
+            { name: "Campak/MR 1", age: 9, description: "Diberikan saat bayi berusia 9 bulan" },
+            { name: "DPT-HB-Hib Lanjutan", age: 18, description: "Diberikan saat anak berusia 18 bulan" },
+            { name: "Campak/MR 2", age: 18, description: "Diberikan saat anak berusia 18 bulan" }
+        ];
+
+        let babyData = {};
+        let vaccineStatus = {};
+
+        function generateSchedule() {
+            const namaBayi = document.getElementById('namaBayi').value;
+            const tanggalLahir = document.getElementById('tanggalLahir').value;
+            const namaOrangTua = document.getElementById('namaOrangTua').value;
+            const nomorWA = document.getElementById('nomorWA').value;
+            const namaPetugas = document.getElementById('namaPetugas').value;
+            const lokasiFaskes = document.getElementById('lokasiFaskes').value;
+
+            if (!namaBayi || !tanggalLahir || !namaOrangTua || !namaPetugas || !lokasiFaskes) {
+                alert('Mohon lengkapi semua data!');
+                return;
+            }
+
+            babyData = {
+                namaBayi, tanggalLahir, namaOrangTua, nomorWA, namaPetugas, lokasiFaskes
+            };
+
+            document.getElementById('displayNamaBayi').textContent = namaBayi;
+            document.getElementById('displayTanggalLahir').textContent = formatDate(tanggalLahir);
+            document.getElementById('displayOrangTua').textContent = namaOrangTua;
+            document.getElementById('displayPetugas').textContent = namaPetugas;
+            document.getElementById('displayLokasi').textContent = lokasiFaskes;
+
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('scheduleSection').style.display = 'block';
+
+            displayVaccineSchedule();
+            checkOverdueVaccines();
+        }
+
+        function displayVaccineSchedule() {
+            const birthDate = new Date(babyData.tanggalLahir);
+            const today = new Date();
+            const vaccineList = document.getElementById('vaccineList');
+            vaccineList.innerHTML = '';
+
+            vaccineSchedule.forEach((vaccine, index) => {
+                const vaccineDate = new Date(birthDate);
+                vaccineDate.setMonth(vaccineDate.getMonth() + vaccine.age);
+
+                const isOverdue = today > vaccineDate && !vaccineStatus[index];
+                const isCompleted = vaccineStatus[index];
+
+                let statusClass = 'status-pending';
+                let statusText = 'Menunggu';
+                let itemClass = '';
+
+                if (isCompleted) {
+                    statusClass = 'status-completed';
+                    statusText = '✓ Selesai';
+                    itemClass = 'completed';
+                } else if (isOverdue) {
+                    statusClass = 'status-overdue';
+                    statusText = '⚠️ Terlambat';
+                    itemClass = 'overdue';
+                }
+
+                const vaccineItem = document.createElement('div');
+                vaccineItem.className = `vaccine-item ${itemClass}`;
+                vaccineItem.innerHTML = `
+                    <div class="vaccine-header">
+                        <div>
+                            <div class="vaccine-name">${vaccine.name}</div>
+                            <div class="vaccine-date">📅 Jadwal: ${formatDate(vaccineDate)}</div>
+                            <div class="vaccine-date" style="color: #999;">${vaccine.description}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="vaccine-age">Usia ${vaccine.age} bulan</div>
+                            <div class="status-badge ${statusClass}" style="margin-top: 10px;">${statusText}</div>
+                        </div>
+                    </div>
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="vaccine_${index}" ${isCompleted ? 'checked' : ''} onchange="toggleVaccineStatus(${index})">
+                        <label for="vaccine_${index}">Tandai sudah diimunisasi</label>
+                    </div>
+                `;
+                vaccineList.appendChild(vaccineItem);
+            });
+        }
+
+        function toggleVaccineStatus(index) {
+            vaccineStatus[index] = !vaccineStatus[index];
+            displayVaccineSchedule();
+            checkOverdueVaccines();
+        }
+
+        function checkOverdueVaccines() {
+            const birthDate = new Date(babyData.tanggalLahir);
+            const today = new Date();
+            const overdueAlert = document.getElementById('overdueAlert');
+            let overdueVaccines = [];
+
+            vaccineSchedule.forEach((vaccine, index) => {
+                const vaccineDate = new Date(birthDate);
+                vaccineDate.setMonth(vaccineDate.getMonth() + vaccine.age);
+
+                if (today > vaccineDate && !vaccineStatus[index]) {
+                    const daysOverdue = Math.floor((today - vaccineDate) / (1000 * 60 * 60 * 24));
+                    overdueVaccines.push(`${vaccine.name} (terlambat ${daysOverdue} hari)`);
+                }
+            });
+
+            if (overdueVaccines.length > 0) {
+                overdueAlert.innerHTML = `
+                    <div class="alert alert-warning">
+                        <strong>⚠️ PERINGATAN!</strong><br>
+                        Imunisasi yang terlambat:<br>
+                        ${overdueVaccines.map(v => `• ${v}`).join('<br>')}
+                        <br><br>Segera hubungi ${babyData.lokasiFaskes} untuk jadwal imunisasi!
+                    </div>
+                `;
+            } else {
+                overdueAlert.innerHTML = '';
+            }
+        }
+
+        function sendWhatsAppReminder() {
+            if (!babyData.nomorWA) {
+                alert('Nomor WhatsApp belum diisi!');
+                return;
+            }
+
+            const birthDate = new Date(babyData.tanggalLahir);
+            let message = `*JADWAL IMUNISASI BAYI*\n\n`;
+            message += `👶 Nama Bayi: ${babyData.namaBayi}\n`;
+            message += `📅 Tanggal Lahir: ${formatDate(babyData.tanggalLahir)}\n`;
+            message += `👨‍👩‍👧 Orang Tua: ${babyData.namaOrangTua}\n`;
+            message += `🏥 Lokasi: ${babyData.lokasiFaskes}\n`;
+            message += `👩‍⚕️ Petugas: ${babyData.namaPetugas}\n\n`;
+            message += `*JADWAL LENGKAP:*\n\n`;
+
+            vaccineSchedule.forEach((vaccine, index) => {
+                const vaccineDate = new Date(birthDate);
+                vaccineDate.setMonth(vaccineDate.getMonth() + vaccine.age);
+                const status = vaccineStatus[index] ? '✅' : '⏳';
+                message += `${status} ${vaccine.name}\n`;
+                message += `   📅 ${formatDate(vaccineDate)}\n`;
+                message += `   ${vaccine.description}\n\n`;
+            });
+
+            message += `\nJangan lupa imunisasi tepat waktu untuk kesehatan optimal bayi! 💉`;
+
+            const whatsappURL = `https://wa.me/${babyData.nomorWA.replace(/^0/, '62')}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappURL, '_blank');
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('id-ID', options);
+        }
+    </script>
+</body>
+</html>
